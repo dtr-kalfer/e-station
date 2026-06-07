@@ -1,0 +1,38 @@
+body.dark-mode {
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+body.dark-mode table {
+    background-color: #444;
+}
+
+body.dark-mode th, body.dark-mode td {
+    border-color: #555;
+}
+
+body.dark-mode tr:nth-child(even) {
+    background-color: #3a3a3a;
+}
+
+body.dark-mode .header, body.dark-mode .footer {
+    background-color: #222;
+    color: #f2f2f2;
+}
+
+body.dark-mode button {
+    background-color: #555;
+    color: #f2f2f2;
+}
+
+body.dark-mode button:hover {
+    background-color: #666;
+}
+
+body.dark-mode a {
+    color: #aaccff;
+}
+
+body.dark-mode .login-container {
+		background-color: #333;
+}

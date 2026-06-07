@@ -1,0 +1,316 @@
+<?php
+session_start();
+if (!isset($_SESSION['staff'])) {
+    header("Location: login.php");
+    exit;
+}
+include('db/db.php');
+// date_default_timezone_set('Asia/Manila');
+
+// Fetch settings
+$settings_result = $conn->query("SELECT * FROM settings");
+$settings = [];
+while ($row = $settings_result->fetch_assoc()) {
+    $settings[$row['setting_key']] = $row['setting_value'];
+}
+define('MAX_USAGE_MINUTES', $settings['max_usage_minutes']);
+
+// 🧠 ALL form actions go here BEFORE any output (no HTML printed yet)
+
+if (isset($_POST['register'])) {
+    $stmt = $conn->prepare("INSERT INTO students (fullname, student_number, course) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $_POST['fullname'], $_POST['student_number'], $_POST['course']);
+    $stmt->execute();
+    header("Location: index.php");
+    exit;
+}
+
+// Time-in logic
+if (isset($_POST['timein'])) {
+    $stmt = $conn->prepare("INSERT INTO sessions (student_id, time_in) VALUES (?, NOW())");
+    $stmt->bind_param("i", $_POST['student_id']);
+    $stmt->execute();
+    header("Location: index.php");
+}
+
+// Time-out logic
+if (isset($_POST['timeout'])) {
+    $sid = $_POST['session_id'];
+    $conn->query("UPDATE sessions SET time_out=NOW(), session_minutes=TIMESTAMPDIFF(MINUTE, time_in, NOW()) WHERE id=$sid");
+    // Add to student's total
+    $sess = $conn->query("SELECT student_id, session_minutes FROM sessions WHERE id=$sid")->fetch_assoc();
+    $conn->query("UPDATE students SET total_time_minutes = total_time_minutes + {$sess['session_minutes']} WHERE id={$sess['student_id']}");
+    header("Location: index.php");
+}
+
+// Reset logic
+if (isset($_POST['reset'])) {
+    $sid = $_POST['reset_id'];
+    // Reset total time
+    $conn->query("UPDATE students SET total_time_minutes = 0 WHERE id = $sid");
+    // Delete all sessions (or just clear recent)
+    $conn->query("DELETE FROM sessions WHERE student_id = $sid");
+    header("Location: index.php");
+}
+
+// Delete logic
+if (isset($_POST['delete'])) {
+    $sid = $_POST['delete_id'];
+    $conn->query("DELETE FROM students WHERE id = $sid");
+    header("Location: index.php");
+    exit;
+}
+
+if (isset($_POST['timeout']) && isset($_POST['session_id'])) {
+    $session_id = intval($_POST['session_id']);
+    $now = date('Y-m-d H:i:s');
+
+    $stmt = $conn->prepare("SELECT time_in, student_id FROM sessions WHERE id = ? AND time_out IS NULL");
+    $stmt->bind_param("i", $session_id);
+    $stmt->execute();
+    $stmt->bind_result($time_in, $student_id);
+
+    if ($stmt->fetch()) {
+        $stmt->close();
+
+        $minutes = round((strtotime($now) - strtotime($time_in)) / 60);
+        if ($minutes < 1) $minutes = 1;
+
+        // Update session
+        $update = $conn->prepare("UPDATE sessions SET time_out = ?, session_minutes = ? WHERE id = ?");
+        $update->bind_param("sii", $now, $minutes, $session_id);
+        $update->execute();
+        $update->close();
+
+        // Deduct from student remaining
+        $conn->query("UPDATE students SET remaining_minutes = GREATEST(0, remaining_minutes - $minutes) WHERE id = $student_id");
+    } else {
+        $stmt->close();
+    }
+
+    // Exit to avoid HTML output on AJAX
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) exit;
+}
+
+$checkedSessionId = isset($_POST['check_time']) && isset($_POST['session_id']) ? $_POST['session_id'] : null;
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Station</title>
+		<meta name="author" content="Ferdinand Tumulak">
+		<meta name="project-url" content="https://github.com/dtr-kalfer/e-station" >
+		<meta name="description" content="A simple, web-based time tracking application for e-stations or computer labs.">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+</head>
+<body>
+    <div id="theme-switcher">🌓</div>
+
+    <div class="header">
+        <img src="uploads/<?= $settings['school_logo'] ?? 'logo.png' ?>" alt="School Logo">
+        <h1><?= $settings['school_name'] ?? 'E-Station School' ?></h1>
+    </div>
+
+<h1>📘 E-Station Time Log</h1>
+
+<!-- Registration -->
+<p style="text-align:right;">
+    Logged in as <strong><?= $_SESSION['staff'] ?> (<?= $_SESSION['role'] ?>)</strong> |
+    <?php if ($_SESSION['role'] === 'admin'): ?>
+        <a href="admin.php">👑 Admin</a> |
+    <?php endif; ?>
+    <a href="logout.php">🚪 Logout</a>
+</p>
+
+<form method="post">
+    <h2>Register Student</h2>
+    <input name="fullname" placeholder="Fullname" required>
+    <input name="student_number" placeholder="Student Number" required>
+    <input name="course" placeholder="Course" required>
+    <button name="register">Register</button>
+</form>
+</br>
+</br>
+
+<!-- Search -->
+<form method="get">
+    <h2>Search Student</h2>
+    <input name="query" placeholder="Search by name or student number">
+    <button>Search</button>
+</form>
+
+<?php
+// Updated search logic: fullname OR student_number
+$search = isset($_GET['query']) ? "%" . $_GET['query'] . "%" : "%";
+$stmt = $conn->prepare("SELECT * FROM students WHERE fullname LIKE ? OR student_number LIKE ?");
+$stmt->bind_param("ss", $search, $search);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
+<table>
+    <thead>
+        <tr>
+                                                <th>-</th>
+            <th>Fullname</th>
+            <th>Student No.</th>
+            <th>Course</th>
+            <th>Total Time Used</th>
+            <th>Remaining Time</th>
+            <th>Status</th>
+            <th>Action</th>
+                                                <th>Time Used</th>
+        </tr>
+    </thead>
+    <tbody>
+
+<?php
+        while ($row = $result->fetch_assoc()) {
+                        $sid = $row['id'];
+                        $active = $conn->query("SELECT * FROM sessions WHERE student_id=$sid AND time_out IS NULL")->fetch_assoc();
+
+                        $used = $row['total_time_minutes'];
+
+                        $MAX_MINUTES = MAX_USAGE_MINUTES; // 20 hours
+                        $remaining = max(0, $MAX_MINUTES - $used);
+
+                        if ($used >= $MAX_MINUTES) {
+                                        $status = "🚫 Blocked";
+                        } elseif ($active) {
+                                        $status = "🟢 Active";
+                        } else {
+                                        $status = "⚪ Idle";
+                        }
+                        echo "<tr>";
+
+        if ($_SESSION['role'] === 'admin') {
+echo "<td><form method='post' style='display:inline' onsubmit=\"return confirm('Are you sure you want to delete this student?');\">
+                                        <input type='hidden' name='delete_id' value='$sid'>
+                                        <button name='delete' class='delete-btn'>🗑️</button>
+                                </form></td>";
+}
+else{
+        echo "<td></td>";
+}
+
+                        echo "<td>{$row['fullname']}</td>";
+                        echo "<td>{$row['student_number']}</td>";
+                        echo "<td>{$row['course']}</td>";
+                        echo "<td>" . floor($used/60) . "h " . ($used%60) . "m</td>";
+                        echo "<td>" . floor($remaining/60) . "h " . ($remaining%60) . "m</td>";
+                        //echo "<td>$status</td>";
+                        echo "<td>$status</td>";
+
+        echo "<td>";
+
+        $timeUsed = '';
+        if ($active) {
+
+        echo "<form data-session-id='" . $active['id'] . "' class='timeout-form' method='post' style='display:inline'>
+                                        <input type='hidden' name='session_id' value='" . $active['id'] . "'>
+                                        <button name='timeout' class='timeout-btn'>⏹️ Time-Out</button>
+                                </form>";
+
+
+                if (isset($checkedSessionId) && $active['id'] == $checkedSessionId) {
+                        // Query to get latest session without time_out
+                        $stmt = $conn->prepare("SELECT time_in FROM sessions WHERE student_id = ? AND time_out IS NULL ORDER BY time_in DESC LIMIT 1");
+                        $stmt->bind_param("i", $active['student_id']);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        if ($row = $result->fetch_assoc()) {
+                                        $timeIn = new DateTime($row['time_in']);
+                                        $now = new DateTime();
+                                        $interval = $timeIn->diff($now);
+                                        $timeUsed = $interval->format('%h hrs %i mins %s secs');
+                        } else {
+                                        $timeUsed = "N/A";
+                        }
+                }
+
+        } else {
+                        if ($used >= MAX_USAGE_MINUTES) {
+                                        echo "<span style='color: red; font-weight: bold'>🚫 Blocked</span>";
+                        } else {
+                                        echo "<form method='post' style='display:inline'>
+                                                                        <input type='hidden' name='student_id' value='$sid'>
+                                                                        <button name='timein'>▶️ Time-In</button>
+                                                                </form>";
+                                        }
+                        }
+?>
+
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+                <form method='post' style='display:inline' onsubmit="return confirm('⚠️ Are you sure you want to RESET TOTAL USAGE TIME?')">
+                        <input type='hidden' name='reset_id' value='<?= $sid ?>'>
+                        <button name='reset' class='reset-btn'>🔄 Reset</button>
+                </form>
+<?php endif; ?>
+
+    <form method="post" style="display:inline">
+      <input type="hidden" name="session_id" value="<?php echo $active['id'] ?? ''; ?>">
+      <button type="submit" name="check_time">✅ Check</button>
+    </form>
+
+                <?php
+                echo "</td>";
+                echo "<td>$timeUsed</td>"; // Right after echoing buttons
+                echo "</tr>";
+                }
+                ?>
+
+    </tbody>
+</table>
+<br><br>
+<button id="power-failure-trigger" >⚠️ Power Failure Logout</button>
+
+<a href="print_report.php" target="_blank">
+    <button>📄 Printable Report</button>
+</a>
+
+    <div class="footer">
+        <p><?= $settings['school_name'] ?? 'Generic E-Station' ?></p><p>&copy; <?= date('Y') ?> Ferdinand Tumulak</p>
+    </div>
+
+<script src="assets/js/script.js"></script>
+<script>
+document.getElementById("power-failure-trigger").addEventListener("click", () => {
+    const buttons = document.querySelectorAll(".timeout-form");
+    let index = 0;
+
+    async function clickNext() {
+        if (index < buttons.length) {
+            const form = buttons[index];
+            const sessionId = form.getAttribute("data-session-id");
+
+            if (sessionId) {
+                // Send logout via POST
+                await fetch("index.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: "session_id=" + encodeURIComponent(sessionId) + "&timeout=1"
+                });
+            }
+
+            index++;
+            setTimeout(clickNext, 1000);
+        } else {
+            alert("Power failure logout completed.");
+            // Optional: reload page to see updated results
+            location.reload();
+        }
+    }
+
+    if (buttons.length === 0) {
+        alert("No active users to log out.");
+    } else {
+        clickNext();
+    }
+});
+</script>
+</body>
+</html>
