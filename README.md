@@ -65,5 +65,6 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 ---
 ## License
 
-© 2026 Ferdinand Tumulak 
+© 2026 Ferdinand Tumulak
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
