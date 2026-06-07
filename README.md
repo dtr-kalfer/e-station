@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/1261685102.svg)](https://doi.org/10.5281/zenodo.20577594)
 # E-Station Time Log
 
 A simple, web-based time tracking application for student computer usage at e-stations or computer labs.
@@ -57,6 +58,11 @@ The admin panel is accessible to users with the `admin` role. Here you can:
 *   Set the maximum usage time for students.
 *   Customize the school name and logo.
 
+---
+### Technical Note
+
+ Full description of the app: [TECHNICAL_NOTE.md](TECHNICAL_NOTE.md)
+ 
 ---
 ## Contributing
 
