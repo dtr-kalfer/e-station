@@ -8,10 +8,14 @@ if (!isset($_SESSION['staff'])) {
 include('db/db.php');
 // date_default_timezone_set('Asia/Manila');
 
-// Fetch max usage minutes from settings
-$settings_result = $conn->query("SELECT setting_value FROM settings WHERE setting_key = 'max_usage_minutes'");
-$max_usage_minutes = $settings_result->fetch_assoc()['setting_value'];
-define('MAX_USAGE_MINUTES', $max_usage_minutes);
+// Fetch settings
+$settings_result = $conn->query("SELECT * FROM settings");
+$settings = [];
+while ($row = $settings_result->fetch_assoc()) {
+    $settings[$row['setting_key']] = $row['setting_value'];
+}
+define('MAX_USAGE_MINUTES', $settings['max_usage_minutes']);
+
 
 // Fetch all students
 $result = $conn->query("SELECT * FROM students ORDER BY fullname ASC");
@@ -20,6 +24,8 @@ $result = $conn->query("SELECT * FROM students ORDER BY fullname ASC");
 <html>
 <head>
     <title>E-Station Usage Report</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,13 +52,19 @@ $result = $conn->query("SELECT * FROM students ORDER BY fullname ASC");
             background: #f0f0f0;
         }
         @media print {
-            button {
+            button, #theme-switcher {
                 display: none;
             }
         }
     </style>
 </head>
 <body>
+    <div id="theme-switcher">🌓</div>
+
+    <div class="header">
+        <img src="uploads/<?= $settings['school_logo'] ?? 'logo.png' ?>" alt="School Logo">
+        <h1><?= $settings['school_name'] ?? 'E-Station School' ?></h1>
+    </div>
 
 <h2>📘 E-Station Usage Report</h2>
 <div class="meta">
@@ -68,6 +80,7 @@ $result = $conn->query("SELECT * FROM students ORDER BY fullname ASC");
             <th>#</th>
             <th>Fullname</th>
             <th>Course</th>
+            <th>Sessions</th>
             <th>Total Time Used</th>
             <th>Remaining Time</th>
             <th>Status</th>
@@ -97,6 +110,7 @@ while ($row = $result->fetch_assoc()) {
     echo "<td>{$count}</td>";
     echo "<td>{$row['fullname']}</td>";
     echo "<td>{$row['course']}</td>";
+    echo "<td>{$row['session_count']}</td>";
     echo "<td>" . floor($used / 60) . "h " . ($used % 60) . "m</td>";
     echo "<td>" . floor($remaining / 60) . "h " . ($remaining % 60) . "m</td>";
     echo "<td>{$status}</td>";
@@ -108,5 +122,10 @@ while ($row = $result->fetch_assoc()) {
     </tbody>
 </table>
 
+    <div class="footer">
+        <p>&copy; <?= date('Y') ?> <?= $settings['school_name'] ?? 'E-Station School' ?></p>
+    </div>
+
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
