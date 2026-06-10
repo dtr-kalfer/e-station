@@ -59,6 +59,7 @@ GRANT ALL PRIVILEGES ON `estation`.* TO 'estation_user'@'localhost';
 ```
 
 *Note: (Optional) For advanced user, you may open the `db/db.php` file and change `$host`, `$user`, `$pass`, and `$dbname` variables to according to your own database grant configuration.*
+
 *Note: FIctional student records are added to test purposes and can be removed.*
 
 ---
