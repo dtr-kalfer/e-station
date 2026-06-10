@@ -5,7 +5,7 @@ if (!isset($_SESSION['staff'])) {
     exit;
 }
 include('db/db.php');
-// date_default_timezone_set('Asia/Manila');
+//date_default_timezone_set('Asia/Manila');
 
 // Fetch settings
 $settings_result = $conn->query("SELECT * FROM settings");
@@ -39,15 +39,15 @@ if (isset($_POST['timeout'])) {
     $conn->query("UPDATE sessions SET time_out=NOW(), session_minutes=TIMESTAMPDIFF(MINUTE, time_in, NOW()) WHERE id=$sid");
     // Add to student's total
     $sess = $conn->query("SELECT student_id, session_minutes FROM sessions WHERE id=$sid")->fetch_assoc();
-    $conn->query("UPDATE students SET total_time_minutes = total_time_minutes + {$sess['session_minutes']} WHERE id={$sess['student_id']}");
+    $conn->query("UPDATE students SET total_time_minutes = total_time_minutes + {$sess['session_minutes']}, session_count = session_count + 1 WHERE id={$sess['student_id']}");
     header("Location: index.php");
 }
 
 // Reset logic
 if (isset($_POST['reset'])) {
     $sid = $_POST['reset_id'];
-    // Reset total time
-    $conn->query("UPDATE students SET total_time_minutes = 0 WHERE id = $sid");
+    // Reset total time and session count
+    $conn->query("UPDATE students SET total_time_minutes = 0, session_count = 0 WHERE id = $sid");
     // Delete all sessions (or just clear recent)
     $conn->query("DELETE FROM sessions WHERE student_id = $sid");
     header("Location: index.php");
@@ -82,8 +82,8 @@ if (isset($_POST['timeout']) && isset($_POST['session_id'])) {
         $update->execute();
         $update->close();
 
-        // Deduct from student remaining
-        $conn->query("UPDATE students SET remaining_minutes = GREATEST(0, remaining_minutes - $minutes) WHERE id = $student_id");
+        // Deduct from student remaining and increment session count
+        $conn->query("UPDATE students SET remaining_minutes = GREATEST(0, remaining_minutes - $minutes), session_count = session_count + 1 WHERE id = $student_id");
     } else {
         $stmt->close();
     }
@@ -97,10 +97,7 @@ $checkedSessionId = isset($_POST['check_time']) && isset($_POST['session_id']) ?
 <!DOCTYPE html>
 <html>
 <head>
-    <title>E-Station</title>
-		<meta name="author" content="Ferdinand Tumulak">
-		<meta name="project-url" content="https://github.com/dtr-kalfer/e-station" >
-		<meta name="description" content="A simple, web-based time tracking application for e-stations or computer labs.">
+    <title>E-Station Tracker</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/dark-mode.css">
 </head>
@@ -156,6 +153,7 @@ $result = $stmt->get_result();
             <th>Fullname</th>
             <th>Student No.</th>
             <th>Course</th>
+            <th>Sessions</th>
             <th>Total Time Used</th>
             <th>Remaining Time</th>
             <th>Status</th>
@@ -187,7 +185,7 @@ $result = $stmt->get_result();
         if ($_SESSION['role'] === 'admin') {
 echo "<td><form method='post' style='display:inline' onsubmit=\"return confirm('Are you sure you want to delete this student?');\">
                                         <input type='hidden' name='delete_id' value='$sid'>
-                                        <button name='delete' class='delete-btn'>🗑️</button>
+                                        <button name='delete' class='delete-btn'>🗑 ️</button>
                                 </form></td>";
 }
 else{
@@ -197,6 +195,7 @@ else{
                         echo "<td>{$row['fullname']}</td>";
                         echo "<td>{$row['student_number']}</td>";
                         echo "<td>{$row['course']}</td>";
+                        echo "<td>{$row['session_count']}</td>";
                         echo "<td>" . floor($used/60) . "h " . ($used%60) . "m</td>";
                         echo "<td>" . floor($remaining/60) . "h " . ($remaining%60) . "m</td>";
                         //echo "<td>$status</td>";
@@ -271,7 +270,7 @@ else{
 </a>
 
     <div class="footer">
-        <p><?= $settings['school_name'] ?? 'Generic E-Station' ?></p><p>&copy; <?= date('Y') ?> Ferdinand Tumulak</p>
+        <p>&copy; <?= date('Y') ?> <?= $settings['school_name'] ?? 'E-Station School' ?></p>
     </div>
 
 <script src="assets/js/script.js"></script>
