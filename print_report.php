@@ -50,6 +50,7 @@ $result = $conn->query("SELECT * FROM students ORDER BY fullname ASC");
         }
         th {
             background: #f0f0f0;
+						color: #222;
         }
         @media print {
             button, #theme-switcher {
