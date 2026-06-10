@@ -48,3 +48,12 @@ if ($check_setting->num_rows == 0) {
 $conn->query("INSERT IGNORE INTO settings (setting_key, setting_value) VALUES ('school_name', 'E-Station School')");
 $conn->query("INSERT IGNORE INTO settings (setting_key, setting_value) VALUES ('school_logo', 'logo.png')");
 echo "✅ Default settings for school_name and school_logo created.<br>";
+
+// 5. Add session_count column to students (for persistent session tally)
+$check_col = $conn->query("SHOW COLUMNS FROM students LIKE 'session_count'");
+if ($check_col->num_rows == 0) {
+    $conn->query("ALTER TABLE students ADD COLUMN session_count INT NOT NULL DEFAULT 0");
+    echo "✅ Added session_count column to students table.<br>";
+} else {
+    echo "ℹ️ session_count column already exists in students.<br>";
+}
