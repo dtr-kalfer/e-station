@@ -83,7 +83,7 @@ CREATE TABLE `staff` (
   `role` varchar(50) NOT NULL DEFAULT 'staff',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,6 +109,7 @@ CREATE TABLE `students` (
   `student_number` varchar(20) DEFAULT NULL,
   `course` varchar(50) DEFAULT NULL,
   `total_time_minutes` int(11) DEFAULT '0',
+  `session_count` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `student_number` (`student_number`)
 ) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
@@ -120,7 +121,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (55,'Jane Smith','12345679','BS-ME',0),(54,'John Doe','12345678','BS-ECE',0);
+INSERT INTO `students` VALUES (55,'Jane Smith','12345679','BS-ME',0,0),(54,'John Doe','12345678','BS-ECE',0,0);
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -133,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-07 10:27:56
+-- Dump completed on 2026-06-10 23:46:37
