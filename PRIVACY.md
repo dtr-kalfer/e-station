@@ -4,7 +4,7 @@
 
 ### Purpose
 
-The E-Station Time Log System is designed to assist educational institutions in managing, monitoring, and documenting access to shared computer resources. The system promotes fair and organized use of computer facilities while providing operational statistics for planning, reporting, and resource management.
+The E-Station Time Log System is designed to assist educational institutions in managing, monitoring resource utilization, and documenting access to shared computer resources. The system promotes fair and organized use of computer facilities while providing operational statistics for planning, reporting, and resource management.
 
 ### Information Collected
 

@@ -11,6 +11,6 @@ Common scenarios observed in many schools include:
 * The need for historical utilization data during accreditation and institutional reporting activities.
 * The challenge of balancing open access with fair use of limited computing resources.
 * Power interruption common in rural areas during computer use, and the 'log-off active students' button to reflect actual time consumed per student.
-* Technial related problems which include hardware and software issues, affecting computer networks and its operation.
+* Technical related problems which include hardware and software issues, affecting computer networks and its operation.
 
 These practical considerations influenced the design of the system and continue to guide its development.

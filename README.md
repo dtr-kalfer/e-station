@@ -15,6 +15,8 @@ A simple, web-based time tracking application for student computer usage at e-st
 *   **Printable Reports**: Generate print-friendly reports of student usage.
 *   **Light/Dark Mode**: A selectable light/dark theme for user comfort.
 *   **Power Failure Recovery**: A feature to log out all active users in case of a power outage.
+*   **Session Count**: Shows the number of sessions made by each students.
+
 
 ---
 ## Screenshots
@@ -24,6 +26,47 @@ A simple, web-based time tracking application for student computer usage at e-st
 ![Collection and Circulation Chart](./readme_assets/estation_sample3.avif)
 
 ![Collection and Circulation Chart](./readme_assets/estation_sample5.avif)
+
+---
+
+## Why E-Station Exists
+
+Many educational institutions maintain computer laboratories, libraries, or shared computer stations intended to support student learning. However, access to these resources is not always easy to measure, organize, or document.
+
+In some cases, students may not have regular access to personal computers or laptops outside campus. Academic tasks such as document preparation, online submissions, research, and digital learning activities may therefore depend on the availability of shared institutional resources.
+
+Without a structured system, schools often rely on paper logbooks or manual monitoring to record usage. While functional, these approaches can make it difficult to understand actual demand, generate reports, support accreditation activities, or plan future improvements.
+
+E-Station was developed to help institutions organize access to shared computer resources, promote fair and efficient utilization, and provide measurable evidence of how these resources support students.
+
+The project is particularly relevant for institutions seeking practical ways to document digital access, improve resource management, and support students who rely on campus computing facilities.
+
+For detailed comparison see [Comparison](COMPARISON.md).
+
+---
+## Real-World Context
+
+E-Station was developed based on actual operational experiences within an educational institution.
+
+Common scenarios observed in many schools include:
+
+* Students completing assignments using shared computers on campus.
+* Students relying on mobile phones for document preparation when computers are unavailable.
+* Limited personnel available to manage open-access computer facilities.
+* Difficulty producing usage statistics from paper logbooks.
+* The need for historical utilization data during accreditation and institutional reporting activities.
+* The challenge of balancing open access with fair use of limited computing resources.
+* Power interruption common in rural areas during computer use, and the 'log-off active students' button to reflect actual time consumed per student.
+* Technical related problems which include hardware and software issues, affecting computer networks and its operation.
+
+These practical considerations influenced the design of the system and continue to guide its development.
+
+---
+## Privacy
+
+The E-Station Time Log System is designed to assist educational institutions in managing, monitoring resource utilization, and documenting access to shared computer resources. The system promotes fair and organized use of computer facilities while providing operational statistics for planning, reporting, and resource management.
+
+For full details see [Privacy](PRIVACY.md).
 
 ---
 ## Getting Started
