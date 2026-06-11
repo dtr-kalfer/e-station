@@ -4,7 +4,6 @@
 A simple, web-based time tracking application for student computer usage at e-stations or computer labs.
 
 ---
-
 ## Features
 
 *   **Student Time Tracking**: Log student time-ins and time-outs to monitor computer usage.
@@ -34,7 +33,6 @@ A simple, web-based time tracking application for student computer usage at e-st
 ![Collection and Circulation Chart](./readme_assets/sample_print_report.avif)
 
 ---
-
 ## Why E-Station Exists
 
 Many educational institutions maintain computer laboratories, libraries, or shared computer stations intended to support student learning. However, access to these resources is not always easy to measure, organize, or document.
@@ -54,7 +52,11 @@ For detailed comparison see [Comparison](COMPARISON.md).
 
 The E-Station Time Log System is actively used at Burauen Community College to support the management of shared computer resources and student access to e-station facilities.
 
+![Collection and Circulation Chart](./readme_assets/complab-03.avif)
+
 The system assists staff in documenting computer usage, generating utilization reports, and promoting fair access to available workstations. Through continuous usage recording, the institution is able to maintain historical records that support operational planning, student services, and accreditation-related documentation.
+
+![Collection and Circulation Chart](./readme_assets/complab-02.avif)
 
 The project serves as both a production system and a practical example of how educational institutions can organize and measure access to shared computing resources using open-source software.
 
