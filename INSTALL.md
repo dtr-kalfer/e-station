@@ -23,31 +23,20 @@ The E-Station Time Log is optimized for lightweight execution and can be hosted 
 * **Runtime:** PHP 7.4 to PHP 8.x (using standard vanilla PHP extensions).
 
 ---
-## Folder Structure
-```txt
-C:/wamp64/www/e-station/
-├── 📙 .gitignore
-├── 📙 INSTALL.md
-├── 📙 README.md
-├── 📙 admin.php
-├── 📁 assets
-│   ├── 📁 css
-│   │   ├── 📙 dark-mode.css
-│   │   └── 📙 style.css
-│   └── 📁 js
-│       └── 📙 script.js
-├── 📁 db
-│   └── 📙 db.php
-├── 📙 index.php
-├── 📙 login.php
-├── 📙 logout.php
-├── 📙 print_report.php
-├── 📁 sql
-│   └── 📙 estation_clean.sql
-├── 📙 upgrade_db.php
-└── 📁 uploads
-    └── 📙 logo.png
-```
+---
+## 🟢 For Non-Technical Admins (Quick Start)
+
+If you have never set up a local web server before, the easiest way to run this application on a Windows computer is by using **WAMP Server** or **XAMPP**.
+
+1. **Download a Pre-packaged Stack:** Download and install [Wampserver](https://www.wampserver.com/en/) or [XAMPP](https://www.apachefriends.org/). They bundle Apache, PHP, and MySQL into a single, one-click installer.
+2. **Launch the Control Panel:** Run the installed program and ensure the Apache and MySQL services are turned on (the system tray icon will turn green in WAMP).
+3. **Access Your Database Manager:** Open your browser and go to `http://localhost/phpmyadmin`. Log in using the default credentials:
+   * **Username:** `root`
+   * **Password:** *(Leave this blank—by default, fresh installations have no password).*
+4. **Proceed to Step 1 Below:** Use the `phpMyAdmin` visual interface to import the `sql/estation_clean.sql` file instead of using the command line prompt.
+
+---
+
 ---
 ## Step 1: Database Setup
 
@@ -77,14 +66,40 @@ GRANT ALL PRIVILEGES ON `estation`.* TO 'estation_user'@'localhost';
 *Note: FIctional student records are added to test purposes and can be removed. You can also remove the existing admin account and create a new administrator account.*
 
 ---
-## Step 2: Upload Files
+## Step 2: Unzip files to your computer/server
 
-1.  Upload all the files from the `estation` directory to your web server (C:/wamp64/www/estation).
+1.  Download the [E-station Github Repository](https://github.com/dtr-kalfer/e-station/archive/refs/heads/main.zip)
+2. Unzip all the files from the `estation` directory to your web server (C:/wamp64/www/estation).
 
+## Folder Structure
+```txt
+C:/wamp64/www/e-station/
+├── 📙 .gitignore
+├── 📙 INSTALL.md
+├── 📙 README.md
+├── 📙 admin.php
+├── 📁 assets
+│   ├── 📁 css
+│   │   ├── 📙 dark-mode.css
+│   │   └── 📙 style.css
+│   └── 📁 js
+│       └── 📙 script.js
+├── 📁 db
+│   └── 📙 db.php
+├── 📙 index.php
+├── 📙 login.php
+├── 📙 logout.php
+├── 📙 print_report.php
+├── 📁 sql
+│   └── 📙 estation_clean.sql
+├── 📙 upgrade_db.php
+└── 📁 uploads
+    └── 📙 logo.png
+```
 ---
 ## Step 3: Run the Database Upgrade Script
 
-1.  In your web browser, navigate to the `upgrade_db.php` script (e.g., `http://your-domain.com/estation/upgrade_db.php`).
+1.  In your web browser, navigate to the `upgrade_db.php` script (e.g., `http://your-domain.com/estation/upgrade_db.php`). If you are using a local computer, navigate your browser to this link (e.g., `http://localhost/estation/upgrade_db.php`).
 2.  This script will check for existing tables and a default admin user (Username: admin / Password: admin).
 3.  **IMPORTANT**: After running the script, delete the `upgrade_db.php` file from your server for security reasons.
 
