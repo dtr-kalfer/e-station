@@ -5,6 +5,6 @@
 - Fixed: Timezone bug, updated upgrade_db.php to include timezone record, updated index.php, added config.php, new estation_clean.sql
 - Fixed: Variable Overwriting ($row) during click 'check' button where table rendering stops. 
 
-[1.0.0] yyyy-mm-dd
+[1.0.0] 2026-06-10
 
 - First relesae
