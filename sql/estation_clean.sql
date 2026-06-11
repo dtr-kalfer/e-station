@@ -56,7 +56,7 @@ CREATE TABLE `settings` (
   `setting_value` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `setting_key` (`setting_key`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'max_usage_minutes','1200'),(2,'school_name','Library E-Station'),(3,'school_logo','logo.png');
+INSERT INTO `settings` VALUES (1,'max_usage_minutes','1200'),(2,'school_name','Library E-Station'),(3,'school_logo','logo.png'),(4,'timezone','Asia/Manila');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-10 23:46:37
+-- Dump completed on 2026-06-11 12:32:29
