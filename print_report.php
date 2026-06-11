@@ -18,7 +18,18 @@ define('MAX_USAGE_MINUTES', $settings['max_usage_minutes']);
 
 
 // Fetch all students
-$result = $conn->query("SELECT * FROM students ORDER BY fullname ASC");
+// $result = $conn->query("SELECT * FROM students ORDER BY fullname ASC");
+
+// Fetch all students and see if they have an active session in a single database hit
+$query = "
+    SELECT s.*, (se.id IS NOT NULL AND se.time_out IS NULL) AS is_currently_active 
+    FROM students s
+    LEFT JOIN sessions se ON s.id = se.student_id AND se.time_out IS NULL
+    ORDER BY s.fullname ASC
+";
+$result = $conn->query($query);
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,10 +107,15 @@ while ($row = $result->fetch_assoc()) {
     $remaining = max(0, MAX_USAGE_MINUTES - $used);
 
     // Check active session
-    $active = $conn->query(
-        "SELECT id FROM sessions
-         WHERE student_id={$row['id']} AND time_out IS NULL"
-    )->fetch_assoc();
+    // $active = $conn->query(
+        // "SELECT id FROM sessions
+         // WHERE student_id={$row['id']} AND time_out IS NULL"
+    // )->fetch_assoc();
+
+		// You no longer need to query the DB here. It's already in $row!
+		$active = (bool)$row['is_currently_active'];
+
+
 
     if ($used >= MAX_USAGE_MINUTES) {
         $status = "🚫 Time's up";

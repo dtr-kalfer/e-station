@@ -7,6 +7,20 @@ Follow these steps to set up the E-Station Time Log application on your web serv
 
 *   A web server with PHP support (e.g., Apache, Nginx).
 *   A MySQL or MariaDB database.
+## System & Hardware Requirements 
+
+The E-Station Time Log is optimized for lightweight execution and can be hosted on functional, resource-constrained, or legacy hardware to maximize the lifecycle of existing school equipment. 
+### Minimum Hardware (Host Server) 
+
+* **CPU:** Dual-core processor (Intel Core 2 Duo, AMD Athlon, or equivalent legacy chips). 
+* **RAM:** 2 GB to 4 GB (2 GB is sufficient for lightweight Linux/LAMP installations). 
+* **Storage:** 500 MB of free disk space (accounting for log file growth). 
+* **Network:** A standard Local Area Network (LAN) switch/router if client stations need to access the server. (Not required if used as a single standalone logging kiosk). 
+### Software Requirements (The Stack) 
+
+* **Web Server:** Apache 2.4+ or Nginx (WAMP for Windows / LAMP for Linux). 
+* **Database:** MySQL 5.7+ or MariaDB 10.3+. 
+* **Runtime:** PHP 7.4 to PHP 8.x (using standard vanilla PHP extensions).
 
 ---
 ## Folder Structure
@@ -60,7 +74,7 @@ GRANT ALL PRIVILEGES ON `estation`.* TO 'estation_user'@'localhost';
 
 *Note: (Optional) For advanced user, you may open the `db/db.php` file and change `$host`, `$user`, `$pass`, and `$dbname` variables to according to your own database grant configuration.*
 
-*Note: FIctional student records are added to test purposes and can be removed.*
+*Note: FIctional student records are added to test purposes and can be removed. You can also remove the existing admin account and create a new administrator account.*
 
 ---
 ## Step 2: Upload Files
@@ -87,8 +101,16 @@ GRANT ALL PRIVILEGES ON `estation`.* TO 'estation_user'@'localhost';
 ## Step 5: Customize
 
 1.  As an admin, you can access the **Admin Panel** to:
-    *   Add and manage staff accounts.
-    *   Set the maximum usage time for students.
-    *   Upload your school's logo and set the school name.
+    *   **Staff Access (RBAC):** Register staff credentials to delegate monitoring controls without granting structural administrative access.
+    *   **Fair Use Policy:** Set the maximum usage session limits for student computer access.
+    *   **Branding:** Upload your institutional school logo and define the school name.
+
+## Data Privacy & Extraction (UN DPG Compliance)
+
+- **Offline Architecture:** All student data, timestamps, and usage log metadata reside exclusively on your local server database. No telemetry, analytical metrics, or personal data are transmitted over the public internet.
+    
+- **Data Minimization:** The system tracks only the essential data points required to maintain fair-use time allocation (timestamps, student identifiers, and active computer seat numbers).
+    
+- **Anonymized Reporting:** The `print_report.php` utility generates clean, print-friendly usage reports. These outputs focus strictly on performance and usage metrics (e.g., hours used, session logs) and completely shield sensitive administrative account hashes from public extraction.
 
 That's it! Your E-Station Time Log application should now be up and running.
