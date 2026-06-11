@@ -251,4 +251,4 @@ Repository:
 https://github.com/dtr-kalfer/e-station
 
 Zenodo Archive:  
-[![DOI](https://zenodo.org/badge/1261685102.svg)](https://doi.org/10.5281/zenodo.20577594)
+https://doi.org/10.5281/zenodo.20637305
