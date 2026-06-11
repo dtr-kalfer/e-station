@@ -80,19 +80,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['run_upgrade'])) {
     <?php if (!empty($message)) echo "<div class='alert'>$message</div>"; ?>
 
     <?php if (empty($message)): ?>
-    <form method="POST">
-        <label for="timezone"><strong>Select System Timezone:</strong></label>
-        <select name="timezone" id="timezone">
-            <option value="Asia/Manila">Manila, Philippines (GMT+8)</option>
-            <option value="Asia/Kolkata">Kolkata, India (GMT+5:30)</option>
-            <option value="Asia/Singapore">Singapore (GMT+8)</option>
-            <option value="America/New_York">New York, USA (EST/EDT)</option>
-            <option value="Europe/London">London, UK (GMT/BST)</option>
-            <option value="UTC">Universal Coordinated Time (UTC)</option>
-        </select>
-        
-        <button type="submit" name="run_upgrade">Run Upgrades & Save</button>
-    </form>
+		<form method="POST">
+				<label for="timezone"><strong>Select System Timezone:</strong></label>
+				<select name="timezone" id="timezone">
+						<!-- Asia -->
+						<option value="Asia/Manila">Manila, Philippines (GMT+8)</option>
+						<option value="Asia/Singapore">Singapore (GMT+8)</option>
+						<option value="Asia/Kuala_Lumpur">Kuala Lumpur, Malaysia (GMT+8)</option>
+						<option value="Asia/Jakarta">Jakarta, Indonesia (GMT+7)</option>
+						<option value="Asia/Bangkok">Bangkok, Thailand (GMT+7)</option>
+						<option value="Asia/Ho_Chi_Minh">Ho Chi Minh City, Vietnam (GMT+7)</option>
+						<option value="Asia/Hong_Kong">Hong Kong (GMT+8)</option>
+						<option value="Asia/Tokyo">Tokyo, Japan (GMT+9)</option>
+						<option value="Asia/Seoul">Seoul, South Korea (GMT+9)</option>
+						<option value="Asia/Kolkata">Kolkata, India (GMT+5:30)</option>
+						<option value="Asia/Dubai">Dubai, UAE (GMT+4)</option>
+
+						<!-- Europe -->
+						<option value="Europe/London">London, UK (GMT/BST)</option>
+						<option value="Europe/Paris">Paris, France (CET/CEST)</option>
+						<option value="Europe/Berlin">Berlin, Germany (CET/CEST)</option>
+						<option value="Europe/Rome">Rome, Italy (CET/CEST)</option>
+						<option value="Europe/Madrid">Madrid, Spain (CET/CEST)</option>
+
+						<!-- North America -->
+						<option value="America/New_York">New York, USA (EST/EDT)</option>
+						<option value="America/Chicago">Chicago, USA (CST/CDT)</option>
+						<option value="America/Denver">Denver, USA (MST/MDT)</option>
+						<option value="America/Los_Angeles">Los Angeles, USA (PST/PDT)</option>
+						<option value="America/Toronto">Toronto, Canada (EST/EDT)</option>
+
+						<!-- South America -->
+						<option value="America/Sao_Paulo">São Paulo, Brazil (GMT-3)</option>
+						<option value="America/Buenos_Aires">Buenos Aires, Argentina (GMT-3)</option>
+
+						<!-- Oceania -->
+						<option value="Australia/Perth">Perth, Australia (GMT+8)</option>
+						<option value="Australia/Sydney">Sydney, Australia (AEST/AEDT)</option>
+						<option value="Pacific/Auckland">Auckland, New Zealand (NZST/NZDT)</option>
+
+						<!-- Africa -->
+						<option value="Africa/Johannesburg">Johannesburg, South Africa (GMT+2)</option>
+						<option value="Africa/Cairo">Cairo, Egypt (GMT+2)</option>
+
+						<!-- Universal -->
+						<option value="UTC">Universal Coordinated Time (UTC)</option>
+				</select>
+				<button type="submit" name="run_upgrade">Run Upgrades & Save</button>
+		</form>
     <?php endif; ?>
 </div>
 
