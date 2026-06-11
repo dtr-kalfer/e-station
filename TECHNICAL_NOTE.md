@@ -51,6 +51,9 @@ The system records:
     
 - Remaining allowable usage time
     
+- Timezone support during initial setup
+    
+- Power failure log-off (All students are logged out)
 
 This functionality allows staff to monitor laboratory utilization and enforce fair-use policies.
 
