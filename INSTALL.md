@@ -100,7 +100,7 @@ C:/wamp64/www/e-station/
 ## Step 3: Run the Database Upgrade Script
 
 1.  In your web browser, navigate to the `upgrade_db.php` script (e.g., `http://your-domain.com/estation/upgrade_db.php`). If you are using a local computer, navigate your browser to this link (e.g., `http://localhost/estation/upgrade_db.php`).
-2.  This script will check for existing tables and a default admin user (Username: admin / Password: admin).
+2.  This script will check for existing tables and a default admin user (Username: admin / Password: admin), also set your local timezone.
 3.  **IMPORTANT**: After running the script, delete the `upgrade_db.php` file from your server for security reasons.
 
 ---
