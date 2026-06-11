@@ -15,11 +15,14 @@ A simple, web-based time tracking application for student computer usage at e-st
 *   **Light/Dark Mode**: A selectable light/dark theme for user comfort.
 *   **Power Failure Recovery**: A feature to log out all active users in case of a power outage.
 *   **Session Count**: Shows the number of sessions made by each students.
+*   **Timezone Support**: Set your country timezone for correct time usage check.
 
 
 ---
 ## Screenshots
 
+### First Run (upgrade_db.php)
+![Collection and Circulation Chart](./readme_assets/first_run.avif)
 ### Login Interface
 ![Collection and Circulation Chart](./readme_assets/estation_sample4.avif)
 
