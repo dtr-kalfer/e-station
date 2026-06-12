@@ -54,6 +54,7 @@ The system records:
 - Timezone support during initial setup
     
 - Power failure log-off (All students are logged out). Please consider using UPS (Uninterruptible Power Supply) to allow a few minutes of power retention to properly log-off all active users. Laptops would be ideal for this e-station setup, allowing a proper log-off.
+- Automatically log out zero time users/students. This keeps the system autonomous, especially on busy days when e-station staff don't have time to stare at the dashboard monitor
 
 This functionality allows staff to monitor laboratory utilization and enforce fair-use policies.
 
