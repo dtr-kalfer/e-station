@@ -227,5 +227,3 @@ MIT License
 Repository:  
 https://github.com/dtr-kalfer/e-station
 
-Zenodo Archive:  
-https://doi.org/10.5281/zenodo.20637305
