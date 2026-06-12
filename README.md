@@ -55,7 +55,7 @@ For detailed comparison see [Comparison](COMPARISON.md).
 ---
 ## Current Deployment
 
-The **E-Station Time Log** system is actively used at **Burauen Community College** to support the management of shared computer resources and student access to e-station facilities.
+The **E-Station Time Log** system is actively used at **Burauen Community College (Dr. Jay P. Cabrera Hall, E-Station Facility)** to support the management of shared computer resources and student access to e-station facilities.
 
 ![Collection and Circulation Chart](./readme_assets/complab-03.avif)
 
