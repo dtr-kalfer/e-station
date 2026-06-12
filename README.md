@@ -16,6 +16,7 @@ A simple, web-based time tracking application for student computer usage at e-st
 *   **Power Failure Recovery**: A feature to log out all active users in case of a power outage.
 *   **Session Count**: Shows the number of sessions made by each students.
 *   **Timezone Support**: Set your country timezone for correct time usage check.
+*   **Batch Check All Active Users**: Displays usage time of all active users.
 
 
 ---
