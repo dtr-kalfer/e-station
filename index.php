@@ -100,7 +100,9 @@ if (isset($_POST['timeout']) && isset($_POST['session_id'])) {
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) exit;
 }
 
+// Check if a single user was checked, or if the global Batch Check was clicked
 $checkedSessionId = isset($_POST['check_time']) && isset($_POST['session_id']) ? $_POST['session_id'] : null;
+$isBatchCheck = isset($_POST['batch_check']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -142,6 +144,14 @@ $checkedSessionId = isset($_POST['check_time']) && isset($_POST['session_id']) ?
     <input name="query" placeholder="Search by name or student number">
     <button>Search</button>
 </form>
+
+<div style="margin: 20px 0; text-align: right;">
+    <form method="post" style="display:inline">
+        <button type="submit" name="batch_check" style="background-color: #17a2b8; color: white; font-weight: bold; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">
+            🔍 Batch Check All Active
+        </button>
+    </form>
+</div>
 
 <?php
 $search = isset($_GET['query']) ? "%" . $_GET['query'] . "%" : "%";
@@ -206,42 +216,43 @@ $result = $stmt->get_result();
 
             echo "<td>";
 
-            $timeUsed = '';
-            if ($active) {
-                echo "<form data-session-id='" . $active['id'] . "' class='timeout-form' method='post' style='display:inline'>
-                        <input type='hidden' name='session_id' value='" . $active['id'] . "'>
-                        <button name='timeout' class='timeout-btn'>⏹️ Time-Out</button>
-                </form>";
+						$timeUsed = '';
+							if ($active) {
+									echo "<form data-session-id='" . $active['id'] . "' class='timeout-form' method='post' style='display:inline'>
+													<input type='hidden' name='session_id' value='" . $active['id'] . "'>
+													<button name='timeout' class='timeout-btn'>⏹️ Time-Out</button>
+									</form>";
 
-                if (isset($checkedSessionId) && $active['id'] == $checkedSessionId) {
-                    // 2. FIXED: Renamed inner query loop components to avoid destroying $stmt, $result, and $row
-                    $check_stmt = $conn->prepare("SELECT time_in FROM sessions WHERE student_id = ? AND time_out IS NULL ORDER BY time_in DESC LIMIT 1");
-                    $check_stmt->bind_param("i", $active['student_id']);
-                    $check_stmt->execute();
-                    $check_result = $check_stmt->get_result();
+									// MODIFIED: Trigger calculation if single checked OR if global Batch Check is active
+									if ((isset($checkedSessionId) && $active['id'] == $checkedSessionId) || $isBatchCheck) {
+											
+											$check_stmt = $conn->prepare("SELECT time_in FROM sessions WHERE student_id = ? AND time_out IS NULL ORDER BY time_in DESC LIMIT 1");
+											$check_stmt->bind_param("i", $active['student_id']);
+											$check_stmt->execute();
+											$check_result = $check_stmt->get_result();
 
-                    if ($check_row = $check_result->fetch_assoc()) {
-                        $timeIn = new DateTime($check_row['time_in']);
-                        $now = new DateTime();
-                        $interval = $timeIn->diff($now);
-                        $timeUsed = $interval->format('%h hrs %i mins %s secs');
-                    } else {
-                        $timeUsed = "N/A";
-                    }
-                }
+											if ($check_row = $check_result->fetch_assoc()) {
+													$timeIn = new DateTime($check_row['time_in']);
+													$now = new DateTime();
+													$interval = $timeIn->diff($now);
+													$timeUsed = $interval->format('%h hrs %i mins %s secs');
+											} else {
+													$timeUsed = "N/A";
+											}
+											$check_stmt->close();
+									}
 
-            } else {
-                if ($used >= MAX_USAGE_MINUTES) {
-                    echo "<span style='color: red; font-weight: bold'>🚫 Blocked</span>";
-                } else {
-                    echo "<form method='post' style='display:inline'>
-                            <input type='hidden' name='student_id' value='$sid'>
-                            <button name='timein'>▶️ Time-In</button>
-                    </form>";
-                }
-            }
+							} else {
+									if ($used >= MAX_USAGE_MINUTES) {
+											echo "<span style='color: red; font-weight: bold'>🚫 Blocked</span>";
+									} else {
+											echo "<form method='post' style='display:inline'>
+															<input type='hidden' name='student_id' value='$sid'>
+															<button name='timein'>▶️ Time-In</button>
+											</form>";
+									}
+							}
 ?>
-
             <?php if ($_SESSION['role'] === 'admin'): ?>
                 <form method='post' style='display:inline' onsubmit="return confirm('⚠️ Are you sure you want to RESET TOTAL USAGE TIME?')">
                     <input type='hidden' name='reset_id' value='<?= $sid ?>'>
