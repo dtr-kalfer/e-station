@@ -17,6 +17,7 @@ A simple, web-based time tracking application for student computer usage at e-st
 *   **Session Count**: Shows the number of sessions made by each students.
 *   **Timezone Support**: Set your country timezone for correct time usage check.
 *   **Batch Check All Active Users**: Displays usage time of all active users.
+*   **Auto-kick logged-in users upon reaching time limit**: Log out zero time users/students. This keeps the system autonomous, especially on busy days when e-station staff don't have time to stare at the dashboard monitor 
 
 
 ---
