@@ -42,13 +42,28 @@ if (isset($_POST['timein'])) {
 }
 
 // Time-out logic
+// Time-out logic (Handles buttons and Auto-Kick AJAX)
 if (isset($_POST['timeout'])) {
-    $sid = $_POST['session_id'];
-    $conn->query("UPDATE sessions SET time_out=NOW(), session_minutes=TIMESTAMPDIFF(MINUTE, time_in, NOW()) WHERE id=$sid");
-    // Add to student's total
-    $sess = $conn->query("SELECT student_id, session_minutes FROM sessions WHERE id=$sid")->fetch_assoc();
-    $conn->query("UPDATE students SET total_time_minutes = total_time_minutes + {$sess['session_minutes']}, session_count = session_count + 1 WHERE id={$sess['student_id']}");
+    $sid = intval($_POST['session_id']);
+    
+    // Ensure the session is actually active before timing out
+    $check_active = $conn->query("SELECT student_id FROM sessions WHERE id=$sid AND time_out IS NULL")->fetch_assoc();
+    if ($check_active) {
+        $conn->query("UPDATE sessions SET time_out=NOW(), session_minutes=TIMESTAMPDIFF(MINUTE, time_in, NOW()) WHERE id=$sid");
+        
+        // Add to student's total
+        $sess = $conn->query("SELECT student_id, session_minutes FROM sessions WHERE id=$sid")->fetch_assoc();
+        $conn->query("UPDATE students SET total_time_minutes = total_time_minutes + {$sess['session_minutes']}, session_count = session_count + 1 WHERE id={$sess['student_id']}");
+    }
+    
+    // If it's a JavaScript background kick, stop processing right here
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) || isset($_POST['ajax'])) {
+        echo json_encode(['status' => 'success']);
+        exit;
+    }
+    
     header("Location: index.php");
+    exit;
 }
 
 // Reset logic
@@ -179,23 +194,36 @@ $result = $stmt->get_result();
     <tbody>
 
 <?php
-        while ($row = $result->fetch_assoc()) {
+			while ($row = $result->fetch_assoc()) {
             $sid = $row['id'];
             $active = $conn->query("SELECT * FROM sessions WHERE student_id=$sid AND time_out IS NULL")->fetch_assoc();
-
             $used = $row['total_time_minutes'];
-
             $MAX_MINUTES = MAX_USAGE_MINUTES; 
-            $remaining = max(0, $MAX_MINUTES - $used);
+            $remaining_minutes = max(0, $MAX_MINUTES - $used);
 
-            if ($used >= $MAX_MINUTES) {
-                $status = "🚫 Blocked";
-            } elseif ($active) {
+            // Calculate active session time right now to deduct from remaining time on page load
+            $current_session_seconds = 0;
+            if ($active) {
+                $timeIn = new DateTime($active['time_in']);
+                $now = new DateTime();
+                $current_session_seconds = $now->getTimestamp() - $timeIn->getTimestamp();
+            }
+
+            // Exact seconds left before the student hits absolute zero
+            $total_seconds_left = ($remaining_minutes * 60) - $current_session_seconds;
+            if ($total_seconds_left < 0) $total_seconds_left = 0;
+
+            // STATUS FIX: Prioritize Active over Blocked so the row renders correctly while open
+            if ($active) {
                 $status = "🟢 Active";
+            } elseif ($used >= $MAX_MINUTES) {
+                $status = "🚫 Blocked";
             } else {
                 $status = "⚪ Idle";
             }
-            echo "<tr>";
+
+            // Tag the row with custom data attributes for JavaScript to read
+            echo "<tr class='student-row' data-session-id='" . ($active['id'] ?? '') . "' data-seconds-left='$total_seconds_left' data-status='$status'>";
 
             if ($_SESSION['role'] === 'admin') {
                 echo "<td><form method='post' style='display:inline' onsubmit=\"return confirm('Are you sure you want to delete this student?');\">
@@ -211,7 +239,7 @@ $result = $stmt->get_result();
             echo "<td>{$row['course']}</td>";
             echo "<td>{$row['session_count']}</td>";
             echo "<td>" . floor($used/60) . "h " . ($used%60) . "m</td>";
-            echo "<td>" . floor($remaining/60) . "h " . ($remaining%60) . "m</td>";
+            echo "<td>" . floor($remaining_minutes/60) . "h " . ($remaining_minutes%60) . "m</td>";
             echo "<td>$status</td>";
 
             echo "<td>";
@@ -318,6 +346,63 @@ document.getElementById("power-failure-trigger").addEventListener("click", () =>
         alert("No active users to log out.");
     } else {
         clickNext();
+    }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Run the checker every 5 seconds for snappy updates
+    setInterval(checkLiveSessions, 5000);
+
+    function checkLiveSessions() {
+        const rows = document.querySelectorAll(".student-row");
+
+        rows.forEach(row => {
+            const status = row.getAttribute("data-status");
+            const sessionId = row.getAttribute("data-session-id");
+            
+            if (status === "🟢 Active" && sessionId) {
+                let secondsLeft = parseInt(row.getAttribute("data-seconds-left")) - 5;
+                if (secondsLeft < 0) secondsLeft = 0;
+                
+                // Update the hidden tracker attribute
+                row.setAttribute("data-seconds-left", secondsLeft);
+
+                // Target the "Time Used" column to update live countdown visual indicators optionally,
+                // But most importantly: Kick if time reaches 0!
+                if (secondsLeft <= 0) {
+                    autoKickUser(sessionId, row);
+                }
+            }
+        });
+    }
+
+    async function autoKickUser(sessionId, row) {
+        // Prevent multiple simultaneous triggers for the same user
+        row.setAttribute("data-status", "🚫 Kicking..."); 
+        
+        console.log(`Auto-kick triggered for Session ID: ${sessionId}`);
+
+        // Send a silent background POST request to index.php to close the session
+        const formData = new FormData();
+        formData.append("session_id", sessionId);
+        formData.append("timeout", "1");
+        formData.append("ajax", "1");
+
+        try {
+            await fetch("index.php", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            
+            // Refresh the dashboard display data instantly without reloading the whole page window
+            location.reload(); 
+        } catch (error) {
+            console.error("Auto-kick failed network transmission:", error);
+        }
     }
 });
 </script>
