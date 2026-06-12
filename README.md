@@ -45,7 +45,7 @@ In some cases, students may not have regular access to personal computers or lap
 
 Without a structured system, schools often rely on paper logbooks or manual monitoring to record usage. While functional, these approaches can make it difficult to understand actual demand, generate reports, support accreditation activities, or plan future improvements.
 
-E-Station was developed to help institutions organize access to shared computer resources, promote fair and efficient utilization, and provide measurable evidence of how these resources support students.
+E-Station Time Log was developed to help institutions organize access to shared computer resources, promote fair and efficient utilization, and provide measurable evidence of how these resources support students.
 
 The project is particularly relevant for institutions seeking practical ways to document digital access, improve resource management, and support students who rely on campus computing facilities.
 
@@ -54,7 +54,7 @@ For detailed comparison see [Comparison](COMPARISON.md).
 ---
 ## Current Deployment
 
-The E-Station Time Log System is actively used at **Burauen Community College** to support the management of shared computer resources and student access to e-station facilities.
+The **E-Station Time Log** system is actively used at **Burauen Community College** to support the management of shared computer resources and student access to e-station facilities.
 
 ![Collection and Circulation Chart](./readme_assets/complab-03.avif)
 
@@ -67,7 +67,7 @@ The project serves as both a production system and a practical example of how ed
 ---
 ## Real-World Context
 
-E-Station was developed based on actual operational experiences within an educational institution.
+**E-Station Time Log** was developed based on actual operational experiences within an educational institution.
 
 Common scenarios observed in many schools include:
 
@@ -85,14 +85,14 @@ These practical considerations influenced the design of the system and continue 
 ---
 ## Replication and Adoption
 
-E-Station is designed to be deployable by schools, libraries, learning commons, and other educational facilities that provide shared computer access to students.
+**E-Station Time Log** is designed to be deployable by schools, libraries, learning commons, and other educational facilities that provide shared computer access to students.
 
 Institutions interested in adopting the system may customize usage policies, reporting requirements, and operational procedures according to local needs while retaining the project's core objective of promoting organized and equitable access to computing resources.
 
 ---
 ## Privacy
 
-The E-Station Time Log System is designed to assist educational institutions in managing, monitoring resource utilization, and documenting access to shared computer resources. The system promotes fair and organized use of computer facilities while providing operational statistics for planning, reporting, and resource management.
+The system is designed to assist educational institutions in managing, monitoring resource utilization, and documenting access to shared computer resources. The system promotes fair and organized use of computer facilities while providing operational statistics for planning, reporting, and resource management.
 
 For full details see [Privacy](PRIVACY.md).
 
