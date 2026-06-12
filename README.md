@@ -37,7 +37,7 @@ A simple, web-based time tracking application for student computer usage at e-st
 ![Collection and Circulation Chart](./readme_assets/sample_print_report.avif)
 
 ---
-## Why E-Station Exists
+## Why E-Station Time Log Exists
 
 Many educational institutions maintain computer laboratories, libraries, or shared computer stations intended to support student learning. However, access to these resources is not always easy to measure, organize, or document.
 
