@@ -4,6 +4,21 @@
 A simple, web-based time tracking application for student computer usage at e-stations or computer labs.
 
 ---
+## Table of Contents
+
+-  [Features](#features)
+-  [Screenshots](README#screenshots)
+-  [Why E-Station Time Log Exists](#why-e-station-time-log-exists)
+-  [Current Deployment](#current-deployment)
+-  [Real-World Context](#real-world-context)
+-  [Replication and Adoption](#replication-and-adoption)
+-  [Privacy](#privacy)
+-  [Getting Started](#getting-started)
+-  [Technical Note](#technical-note)
+-  [Contributing](#contributing)
+-  [License](#license)
+
+---
 ## Features
 
 *   **Student Time Tracking**: Log student time-ins and time-outs to monitor computer usage.
