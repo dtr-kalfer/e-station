@@ -193,38 +193,14 @@ The system presently does not include:
     
 - Advanced analytics dashboards
     
+- Shut down e-station computers remotely via LAN or wireless connection (WiFi)
+    
+- Manage network bandwidth allocated per e-station or set download data limit.
+    
 
 These features remain potential areas for future development.
 
 ---
-
-## Future Development
-
-Potential future enhancements include:
-
-- Activity and audit logging
-    
-- Export to CSV and spreadsheet formats
-    
-- Academic term-based quota resets
-    
-- Student profile photographs
-    
-- QR code-based authentication
-    
-- REST API integration
-    
-- Mobile-friendly administrative dashboard
-    
-- Enhanced statistical reporting
-    
-- Multi-location deployment support
-    
-
-Future work will continue emphasizing low-cost deployment and accessibility for educational institutions with limited technical resources.
-
----
-
 ## Conclusion
 
 E-Station Time Log demonstrates that practical computer laboratory management can be achieved using lightweight open-source technologies. By providing session tracking, quota enforcement, administrative management, and reporting capabilities within a simple PHP/MySQL environment, the system offers a viable solution for schools and organizations seeking affordable methods for managing shared computing resources.
