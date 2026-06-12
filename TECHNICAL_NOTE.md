@@ -227,3 +227,5 @@ MIT License
 Repository:  
 https://github.com/dtr-kalfer/e-station
 
+Zenodo:
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20666443.svg)](https://doi.org/10.5281/zenodo.20666443)

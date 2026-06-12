@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20637305.svg)](https://doi.org/10.5281/zenodo.20637305)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20666443.svg)](https://doi.org/10.5281/zenodo.20666443)
 # E-Station Time Log
 
 A simple, web-based time tracking application for student computer usage at e-stations or computer labs.
