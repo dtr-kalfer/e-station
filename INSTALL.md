@@ -36,8 +36,6 @@ If you have never set up a local web server before, the easiest way to run this 
 4. **Proceed to Step 1 Below:** Use the `phpMyAdmin` visual interface to import the `sql/estation_clean.sql` file instead of using the command line prompt.
 
 ---
-
----
 ## Step 1: Database Setup
 
 1. Copy the file (estation_clean.sql) on the specified path.
