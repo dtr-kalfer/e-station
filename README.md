@@ -51,7 +51,7 @@ A simple, web-based time tracking application for student computer usage at e-st
 
 ### Print Report
 ![Collection and Circulation Chart](./readme_assets/sample_print_report.avif)
-## Actual Run
+### Actual Run
 ![Actual Run](./readme_assets/actual_run.avif)
 
 ---
@@ -76,7 +76,7 @@ The **E-Station Time Log** system is actively used at **Burauen Community Colleg
 
 ![Collection and Circulation Chart](./readme_assets/complab-03.avif)
 
-The system assists staff in documenting computer usage, generating utilization reports, and promoting fair access to available workstations. Through continuous usage recording, the institution is able to maintain historical records that support operational planning, student services, and accreditation-related documentation.
+The system assists staff in **documenting computer usage, generating utilization reports**, and **promoting fair access** to available workstations. Through continuous usage recording, the institution is able to maintain historical records that support operational planning, student services, and accreditation-related documentation.
 
 ![Collection and Circulation Chart](./readme_assets/complab-02.avif)
 
@@ -96,16 +96,17 @@ Common scenarios observed in many schools include:
 * The need for historical utilization data during accreditation and institutional reporting activities.
 * The challenge of balancing open access with fair use of limited computing resources.
 * Power interruption common in rural areas during computer use, and the 'log-off active students' button to reflect actual time consumed per student.
-* Technical related problems which include hardware and software issues, affecting computer networks and its operation.
+* Technical-related problems which include hardware and software issues, affecting computer networks and its operation.
+* Internet performance.
 
 These practical considerations influenced the design of the system and continue to guide its development.
 
 ---
 ## Replication and Adoption
 
-**E-Station Time Log** is designed to be deployable by schools, libraries, learning commons, and other educational facilities that provide shared computer access to students.
+**E-Station Time Log** is designed to be deployable by **schools, libraries, learning commons,** and **other educational facilities** that provide shared computer access to students.
 
-Institutions interested in adopting the system may customize usage policies, reporting requirements, and operational procedures according to local needs while retaining the project's core objective of promoting organized and equitable access to computing resources.
+Institutions interested in adopting the system may **customize usage policies, reporting requirements, and operational procedures** according to local needs while retaining the project's core objective of promoting organized and equitable access to computing resources.
 
 ---
 ## Privacy
@@ -129,7 +130,7 @@ To get started with the E-Station Time Log, please follow the installation instr
 
 #### Logging In
 
-Log in with your staff or admin credentials on the login page.
+Log in with your **staff** or **admin** credentials on the login page.
 
 #### Managing Students
 

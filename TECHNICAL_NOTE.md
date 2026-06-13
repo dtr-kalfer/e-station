@@ -188,7 +188,7 @@ The system presently does not include:
     
 - QR code identification
     
-- Multi-campus synchronization
+- Multi-campus synchronization *(Currently under development)*
     
 - Automated backup scheduling
     
