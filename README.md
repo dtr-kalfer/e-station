@@ -51,6 +51,8 @@ A simple, web-based time tracking application for student computer usage at e-st
 
 ### Print Report
 ![Collection and Circulation Chart](./readme_assets/sample_print_report.avif)
+## Actual Run
+![Actual Run](./readme_assets/actual_run.avif)
 
 ---
 ## Why E-Station Time Log Exists
