@@ -1,6 +1,6 @@
 ## 🐧 Alternative Path: Production Linux Deployment (LAMP)
 
-For enhanced stability on old hardware, deploying Linux distribution (such as Ubuntu or Debian) is recommended. Run the following commands from your terminal terminal:
+For enhanced stability on old hardware, deploying Linux distribution (such as Ubuntu or Debian) is recommended. Run the following commands from your terminal.
 
 ### 1. Install the Stack
 ```bash
