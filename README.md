@@ -3,6 +3,8 @@
 
 A simple, web-based time tracking application for student computer usage at e-stations or computer labs.
 
+![e-station_pc](./readme_assets/e-station_pc.avif)
+
 ---
 ## Table of Contents
 
