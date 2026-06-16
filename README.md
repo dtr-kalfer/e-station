@@ -118,7 +118,7 @@ For full details see [Privacy](PRIVACY.md).
 ---
 ## Getting Started
 
-To get started with the E-Station Time Log, please follow the installation instructions in the [INSTALL.md](INSTALL.md) file.
+To get started with the E-Station Time Log, please follow the installation instructions in the [INSTALL.md](INSTALL.md) file for Windows and [INSTALL_LINUX.md](INSTALL_LINUX.md) for Linux setup.
 
 ---
 ### Usage
