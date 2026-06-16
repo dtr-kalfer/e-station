@@ -1,3 +1,4 @@
+![e-station_pc](./readme_assets/e-station_pc.avif)
 ## 🏫 Context & Target Environment
 
 In many school computer laboratories, the "Server" is structurally a standard desktop computer commonly referred to as the **"Server PC" or "Teacher's PC."** This is typically the most secure machine in the laboratory—positioned safely behind the teacher's or librarian's desk, connected to the primary shared printer, backed up by an Uninterruptible Power Supply (UPS), and occasionally granted internet access. 
