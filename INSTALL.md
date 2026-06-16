@@ -1,3 +1,11 @@
+## 🏫 Context & Target Environment
+
+In many school computer laboratories, the "Server" is structurally a standard desktop computer commonly referred to as the **"Server PC" or "Teacher's PC."** This is typically the most secure machine in the laboratory—positioned safely behind the teacher's or librarian's desk, connected to the primary shared printer, backed up by an Uninterruptible Power Supply (UPS), and occasionally granted internet access. 
+
+This specific configuration is the standard blueprint for the vast majority of public and private school computer labs across rural and regional areas in the Philippines. 
+
+Because student access to this specific computer is strictly restricted, and remote network connections are advised against to eliminate security vulnerabilities, **the E-Station Time Log is optimized to run natively on this single machine via `localhost`.** This localized setup transforms the secure Teacher's PC into a resilient, centralized administrative logging kiosk that stays operational even during network or local grid power fluctuations.
+
 # Installation Guide
 
 Follow these steps to set up the E-Station Time Log application on your web server.
@@ -99,16 +107,19 @@ C:/wamp64/www/e-station/
 
 1.  In your web browser, navigate to the `upgrade_db.php` script (e.g., `http://your-domain.com/estation/upgrade_db.php`). If you are using a local computer, navigate your browser to this link (e.g., `http://localhost/estation/upgrade_db.php`).
 2.  This script will check for existing tables and a default admin user (Username: admin / Password: admin), also set your local timezone.
-3.  **IMPORTANT**: After running the script, delete the `upgrade_db.php` file from your server for security reasons.
+3.  **IMPORTANT**: After running the script, delete the `upgrade_db.php` file from your server for security reasons. FIle can be found here: 'C:/wamp64/www/e-station/upgrade_db.php'
 
 ---
 ## Step 4: Log In
 
 1.  Navigate to the `login.php` page in your browser.
-2.  Log in with the default admin credentials:
+```browser
+http://localhost/estation/login.php
+```
+1.  Log in with the default admin credentials:
     *   **Username**: `admin`
     *   **Password**: `admin`
-3.  Once logged in, you can create a new admin account and delete the default admin and start using the application.
+2.  Once logged in, you can create a new admin account and delete the default admin and start using the application.
 
 ---
 ## Step 5: Customize
