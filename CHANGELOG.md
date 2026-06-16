@@ -1,6 +1,8 @@
 [unreleased] YYYY-MM-DD
 - Added feature: 'Batch Check Active Users'. Displays usage time of all  active user's session. 
 - Added feature: 'Auto-kick Users' having zero time left on their quota.
+- Updated: README.md, INSTALL.md, INSTALL_LINUX.md, PRIVACY.md, TECHNICAL_NOTE.md, CHANGELOG.md
+
 
 [1.6.8] 2026-06-11
 
