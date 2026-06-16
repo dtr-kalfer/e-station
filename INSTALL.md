@@ -45,34 +45,40 @@ If you have never set up a local web server before, the easiest way to run this 
 4. **Proceed to Step 1 Below:** Use the `phpMyAdmin` visual interface to import the `sql/estation_clean.sql` file instead of using the command line prompt.
 
 ---
-## Step 1: Database Setup
 
-1. Copy the file (estation_clean.sql) on the specified path.
+### Step 1: Database Setup
 
-```txt
-C:/wamp64/tmp/
+1. Copy the clean database schema file (`sql/estation_clean.sql`) to your temporary folder (e.g., `C:/wamp64/tmp/`).
+    
+2. Open the Windows Terminal with administrative privileges: Press **Win + X** on your keyboard, then press **A** (or select _Terminal (Admin)_ / _Command Prompt (Admin)_).
+    
+3. Navigate to your specific WAMP MySQL binary folder and log in by running the following commands step-by-step:
+    
 ```
+:: 1. Navigate to the MySQL execution folder (Note: your version numbers may vary slightly)
+cd C:\wamp64\bin\mysql\mysql5.7.36\bin
 
-2.  Login into your mysql prompt and follow the instruction below:
+:: 2. Log into the MySQL prompt as root
+mysql -u root -p
+```
+> 💡 **Note for Beginners:** When you press Enter after `mysql -u root -p`, the terminal will ask for a password. If this is a fresh WAMP installation, **do not type anything**—simply press **Enter** again, as the default root password is completely blank.
 
-```mysql
+4. Once your prompt changes to `mysql>`, copy and execute these lines to initialize the database schema:
+    
+```sql
 CREATE DATABASE IF NOT EXISTS estation;
 USE estation;
-SOURCE C:/wamp64/tmp/estation_clean.sql
+SOURCE C:/wamp64/tmp/estation_clean.sql;
 ```
 
-3. Still inside the MySQL prompt, create a new user with a password (e.g., `estation_user` / `estationconnect`).
-
-```mysql
+5. Still inside the `mysql>` prompt, create a secure local user account so the web application can communicate with your new tables:
+    
+```sql
 CREATE USER 'estation_user'@'localhost' IDENTIFIED BY 'estationconnect';
 GRANT ALL PRIVILEGES ON `estation`.* TO 'estation_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
 ```
-
-*Note: (Optional) For advanced user, you may open the `db/db.php` file and change `$host`, `$user`, `$pass`, and `$dbname` variables to according to your own database grant configuration.*
-
-*Note: FIctional student records are added to test purposes and can be removed. You can also remove the existing admin account and create a new administrator account.*
-
----
 ## Step 2: Unzip files to your computer/server
 
 1.  Download the [E-station Github Repository](https://github.com/dtr-kalfer/e-station/archive/refs/heads/main.zip)
@@ -80,7 +86,7 @@ GRANT ALL PRIVILEGES ON `estation`.* TO 'estation_user'@'localhost';
 
 ## Folder Structure
 ```txt
-C:/wamp64/www/e-station/
+C:/wamp64/www/estation/
 ├── 📙 .gitignore
 ├── 📙 INSTALL.md
 ├── 📙 README.md
@@ -106,7 +112,7 @@ C:/wamp64/www/e-station/
 ---
 ## Step 3: Run the Database Upgrade Script
 
-1.  In your web browser, navigate to the `upgrade_db.php` script (e.g., `http://your-domain.com/estation/upgrade_db.php`). If you are using a local computer, navigate your browser to this link (e.g., `http://localhost/estation/upgrade_db.php`).
+1.  In your web browser, navigate to the `upgrade_db.php` script (e.g., `http://localhost/estation/upgrade_db.php`). If you are using a local computer, navigate your browser to this link (e.g., `http://localhost/estation/upgrade_db.php`).
 2.  This script will check for existing tables and a default admin user (Username: admin / Password: admin), also set your local timezone.
 3.  **IMPORTANT**: After running the script, delete the `upgrade_db.php` file from your server for security reasons. FIle can be found here: 'C:/wamp64/www/e-station/upgrade_db.php'
 
@@ -137,5 +143,3 @@ http://localhost/estation/login.php
 - **Data Minimization:** The system tracks only the essential data points required to maintain fair-use time allocation (timestamps, student identifiers, and active computer seat numbers).
     
 - **Anonymized Reporting:** The `print_report.php` utility generates clean, print-friendly usage reports. These outputs focus strictly on performance and usage metrics (e.g., hours used, session logs) and completely shield sensitive administrative account hashes from public extraction.
-
-That's it! Your E-Station Time Log application should now be up and running.
